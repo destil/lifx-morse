@@ -87,7 +87,7 @@ puts "[+] Turning off light."
 
 printf("[+] Sending message: \"#{message}\"")
 message.each_char do |c|
-	for f in alphabet[c]
+	for f in alphabet[c.downcase()]
 		f.(light)
 		pause()
 	end
