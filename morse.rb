@@ -1,27 +1,44 @@
-#!/usr/bin/ruby 
-# morse.rb
-# nemo 2014
+#!/usr/bin/ruby
 
 require 'lifx'
 
-def init_light(light)
-	light.turn_off
+dot = -> lights {
+    lights.set_color(LIFX::Color.red)
+	sleep(0.8) 
+	lights.turn_on 
+	print "."
+	sleep(0.5)
+	lights.turn_off
+}
+
+dash = -> lights {
+    lights.set_color(LIFX::Color.green)
+	sleep(0.8)
+	lights.turn_on
+	print "-"
+	sleep(1)
+	lights.turn_off
+}
+
+def letterPause()
+	print "|"
+    sleep(2)
 end
 
-dot = -> light {
-	light.turn_on
-	sleep(1)
-	light.turn_off
-}
+def wordPause() 
+	print " "
+	sleep(3)
+end
 
-dash = -> light {
-	light.turn_on
-	sleep(2)
-	light.turn_off
-}
-
-def pause
-	sleep(1)
+def messagePause(lights)
+	puts
+	for i in 1..3 do
+		lights.set_color(LIFX::Color.blue)
+		sleep(0.8)
+		lights.turn_on
+		sleep(1)
+		lights.turn_off
+	end
 end
 
 alphabet = {
@@ -61,37 +78,42 @@ alphabet = {
 	"8" => [dash,dash,dash,dot,dot],
 	"9" => [dash,dash,dash,dash,dot],
 	"0" => [dash,dash,dash,dash,dash],
-	" " => [ -> light {sleep(1)} ]
+	" " => [ wordPause ]
 }
 
+# program starts
 
-if(ARGV.length != 1) 
-	printf("[!] usage: %s <message>\n",$0)
+if ARGV.length != 1 
+	printf "[!] usage: %s <message>\n" , $0
 	exit(1)
 end
 
-client = LIFX::Client.lan                  # Talk to bulbs on the LAN
-puts "[+] Initializing module"
+client = LIFX::Client.lan
+puts "Initializing ..."
 sleep(1)
 
 message = ARGV[0]
-	
-light = client.lights.with_label('') 
-if light == nil
-	puts "[!] error: no light found, exiting...\n";
-	exit(1);
+
+puts "Searching for lights on your network ..."
+
+client.discover!
+
+lights = client.lights
+
+if lights.count == 0
+		puts "No lights found on your network";
+		exit(1);
 end
 
-puts "[+] Found light, continuing."
-puts "[+] Turning off light."
+puts "Sending morse code to all lights on your network"
 
-printf("[+] Sending message: \"#{message}\"")
-message.each_char do |c|
-	for f in alphabet[c.downcase()]
-		f.(light)
-		pause()
+loop do 
+	messagePause(lights)
+
+	message.each_char do |c|
+		for f in alphabet[c.downcase()]
+			f.(lights)
+		end
+		letterPause()
 	end
 end
-		
-	
-	
