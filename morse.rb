@@ -101,8 +101,8 @@ client.discover!
 lights = client.lights
 
 if lights.count == 0
-		puts "No lights found on your network";
-		exit(1);
+	puts "No lights found on your network";
+	exit(1);
 end
 
 puts "Sending morse code to all lights on your network"
