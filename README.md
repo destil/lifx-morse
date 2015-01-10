@@ -1,8 +1,8 @@
 # LIFX Morse
-[Morse code](http://en.wikipedia.org/wiki/Morse_code) generator for your [LIFX Smartbulb](http://lifx.co/) in [Ruby](https://www.ruby-lang.org).
+[Morse code](http://en.wikipedia.org/wiki/Morse_code) generator for [LIFX Smartbulbs](http://lifx.co/) written in [Ruby](https://www.ruby-lang.org).
 
 ### What it does:
- 1. Connects to all lights on your network
+ 1. Connects to all lights on your WiFi
  2. Blinks blue three times before the message
  3. Blinks quickly red for dot, blinks slower green for dash, pauses between letters and words
  4. Repeats the message
