@@ -10,12 +10,12 @@
 ### See it in action:
 [![LIFX Morse in action](http://img.youtube.com/vi/la-_FB2P3y8/0.jpg)](http://www.youtube.com/watch?v=la-_FB2P3y8)
 
-### How to launch it on Mac:
-First time:
-```
-sudo gem install lifx
-```
-Then:
+### How to install it on Mac:
+ 1. `sudo gem install lifx`
+ 2. download `morse.rb`
+ 3. `chmod +x morse.rb`
+
+### How to use it on Mac
 ```
 ./morse.rb <message>
 ```
